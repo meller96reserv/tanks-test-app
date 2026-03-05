@@ -1,0 +1,31 @@
+// ─── Color Palette ───────────────────────────────────────────────────────────
+$bg-primary:        #1f1f1f;
+$bg-secondary:      #2b2b2b;
+$bg-tertiary:       #252525;
+$border-color:      #333333;
+$border-color-sub:  #3d3d3d;
+$accent:            #ff6a00;
+$accent-hover:      #ff8533;
+$accent-dim:        rgba(#ff6a00, 0.08);
+$text-primary:      #ffffff;
+$text-secondary:    #a0a0a0;
+$text-muted:        #555555;
+$error:             #e05454;
+
+// ─── Spacing (8 px grid) ─────────────────────────────────────────────────────
+$spacing-xs:  4px;
+$spacing-sm:  8px;
+$spacing-md:  16px;
+$spacing-lg:  24px;
+$spacing-xl:  32px;
+$spacing-xxl: 48px;
+
+// ─── Typography ──────────────────────────────────────────────────────────────
+$font-size-xs:   11px;
+$font-size-sm:   13px;
+$font-size-base: 14px;
+$font-size-xl:   20px;
+
+// ─── Misc ────────────────────────────────────────────────────────────────────
+$border-radius: 2px;
+$transition:    200ms ease;
