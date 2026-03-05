@@ -1,0 +1,36 @@
+@use './styles/variables' as *;
+
+.app {
+  min-height: 100vh;
+  background-color: #121212;
+  color: $text-primary;
+}
+
+.app__main {
+  padding: $spacing-xl $spacing-md;
+}
+
+.app__title {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  margin: 0 0 $spacing-xl;
+  padding-bottom: $spacing-md;
+  font-size: $font-size-xl;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: $text-primary;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 48px;
+    height: 3px;
+    background-color: $accent;
+  }
+}
