@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/tanks-test-app/static/css/main.c403e979.css",
-    "main.js": "/tanks-test-app/static/js/main.6583e3e1.js",
+    "main.css": "/tanks-test-app/static/css/main.728c5e42.css",
+    "main.js": "/tanks-test-app/static/js/main.894bf927.js",
     "static/js/453.8a315d8b.chunk.js": "/tanks-test-app/static/js/453.8a315d8b.chunk.js",
     "index.html": "/tanks-test-app/index.html",
-    "main.c403e979.css.map": "/tanks-test-app/static/css/main.c403e979.css.map",
-    "main.6583e3e1.js.map": "/tanks-test-app/static/js/main.6583e3e1.js.map",
+    "main.728c5e42.css.map": "/tanks-test-app/static/css/main.728c5e42.css.map",
+    "main.894bf927.js.map": "/tanks-test-app/static/js/main.894bf927.js.map",
     "453.8a315d8b.chunk.js.map": "/tanks-test-app/static/js/453.8a315d8b.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.c403e979.css",
-    "static/js/main.6583e3e1.js"
+    "static/css/main.728c5e42.css",
+    "static/js/main.894bf927.js"
   ]
 }
