@@ -1,0 +1,412 @@
+@use '../../styles/variables' as *;
+
+// ─── Container ───────────────────────────────────────────────────────────────
+
+.tank-table {
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: $bg-primary;
+  color: $text-primary;
+  border: 1px solid $border-color;
+  border-top: 3px solid $accent;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+}
+
+// ─── Controls bar ────────────────────────────────────────────────────────────
+
+.tank-table__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-lg;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: $spacing-lg;
+  background-color: $bg-secondary;
+  border-bottom: 1px solid $border-color;
+}
+
+.tank-table__filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  flex: 1 1 55%;
+}
+
+.tank-table__filter,
+.tank-table__page-size {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.tank-table__filter-label,
+.tank-table__page-size-label,
+.tank-table__exact-search-label {
+  font-size: $font-size-xs;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: $text-secondary;
+}
+
+.tank-table__filter-input,
+.tank-table__page-size-select,
+.tank-table__exact-search-input {
+  padding: $spacing-sm $spacing-sm;
+  border: 1px solid $border-color-sub;
+  border-radius: $border-radius;
+  background-color: $bg-primary;
+  color: $text-primary;
+  font-size: $font-size-base;
+  outline: none;
+  transition: border-color $transition, box-shadow $transition;
+
+  &:focus {
+    border-color: $accent;
+    box-shadow: 0 0 0 2px rgba($accent, 0.25);
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+}
+
+.tank-table__page-size-select {
+  cursor: pointer;
+}
+
+// ─── Exact-name search ───────────────────────────────────────────────────────
+
+.tank-table__exact-search {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.tank-table__exact-search-controls {
+  display: flex;
+  gap: $spacing-sm;
+}
+
+.tank-table__exact-search-input {
+  flex: 1 1 auto;
+}
+
+.tank-table__exact-search-input--error {
+  border-color: $error;
+  box-shadow: 0 0 0 2px rgba($error, 0.25);
+}
+
+.tank-table__exact-search-error {
+  font-size: $font-size-xs;
+  color: $error;
+  margin-top: 2px;
+}
+
+.tank-table__exact-search-button {
+  padding: $spacing-sm $spacing-md;
+  border: none;
+  border-radius: $border-radius;
+  background-color: $accent;
+  color: $text-primary;
+  font-size: $font-size-xs;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color $transition, transform $transition;
+
+  &:hover:not(:disabled) {
+    background-color: $accent-hover;
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+}
+
+// ─── Table ───────────────────────────────────────────────────────────────────
+
+.tank-table__wrapper {
+  overflow-x: auto;
+}
+
+.tank-table__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: $font-size-base;
+  // Fixed layout prevents columns from resizing on every page change.
+  table-layout: fixed;
+}
+
+// Column widths — defined on <th> cells so the fixed layout engine
+// can lock them in before any row content is rendered.
+.tank-table__row--head {
+  .tank-table__cell--head:nth-child(1) { width: 72px;  } // image
+  // name (2nd) takes remaining space automatically
+  .tank-table__cell--head:nth-child(3) { width: 130px; } // nation
+  .tank-table__cell--head:nth-child(4) { width: 56px;  } // tier
+  .tank-table__cell--head:nth-child(5) { width: 140px; } // type
+}
+
+.tank-table__head {
+  background-color: $bg-secondary;
+  border-bottom: 2px solid $accent;
+}
+
+.tank-table__row--head {
+  text-align: left;
+}
+
+.tank-table__cell {
+  padding: $spacing-sm $spacing-md;
+  border-bottom: 1px solid $border-color;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.tank-table__cell--head {
+  padding: $spacing-md;
+  font-size: $font-size-xs;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: $text-secondary;
+}
+
+.tank-table__cell--image {
+  width: 72px;
+  padding: $spacing-xs $spacing-sm;
+  min-height: 48px;
+}
+
+.tank-table__vehicle-icon {
+  display: block;
+  width: 56px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.tank-table__row--body {
+  transition: background-color $transition;
+
+  &:nth-child(even) {
+    background-color: $bg-tertiary;
+  }
+
+  &:hover {
+    background-color: $accent-dim;
+    box-shadow: inset 3px 0 0 $accent;
+  }
+}
+
+.tank-table__row--highlighted {
+  animation: tank-table-highlight 2s ease forwards;
+}
+
+.tank-table__row--highlighted .tank-table__cell {
+  color: $text-primary;
+}
+
+.tank-table__row--empty .tank-table__cell {
+  text-align: center;
+  color: $text-muted;
+  padding: $spacing-xxl $spacing-md;
+  font-size: $font-size-sm;
+}
+
+// ─── Loader ──────────────────────────────────────────────────────────────────
+
+.tank-table__loader {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-lg $spacing-md;
+  color: $text-secondary;
+  font-size: $font-size-sm;
+}
+
+.tank-table__loader-spinner {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 2px solid rgba($text-primary, 0.12);
+  border-top-color: $accent;
+  animation: tank-table-spinner 0.75s linear infinite;
+}
+
+// ─── Error state ─────────────────────────────────────────────────────────────
+
+.tank-table__error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-xl $spacing-lg;
+}
+
+.tank-table__error-message {
+  margin: 0;
+  color: $error;
+  font-size: $font-size-base;
+}
+
+.tank-table__error-retry {
+  padding: $spacing-xs $spacing-lg;
+  border: 1px solid $accent;
+  border-radius: $border-radius;
+  background-color: transparent;
+  color: $accent;
+  font-size: $font-size-xs;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: background-color $transition, color $transition;
+
+  &:hover {
+    background-color: $accent-dim;
+  }
+}
+
+// ─── Pagination ──────────────────────────────────────────────────────────────
+
+.tank-table__pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-md $spacing-lg;
+  background-color: $bg-secondary;
+  border-top: 1px solid $border-color;
+}
+
+.tank-table__pagination-button {
+  padding: $spacing-xs $spacing-md;
+  border: 1px solid $border-color-sub;
+  border-radius: $border-radius;
+  background-color: transparent;
+  color: $text-secondary;
+  font-size: $font-size-xs;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: border-color $transition, color $transition, background-color $transition;
+
+  &:hover:not(:disabled) {
+    border-color: $accent;
+    color: $accent;
+    background-color: $accent-dim;
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
+
+.tank-table__pagination-info {
+  min-width: 110px;
+  text-align: center;
+  font-size: $font-size-sm;
+  color: $text-secondary;
+  letter-spacing: 0.04em;
+}
+
+.tank-table__pagination-input {
+  width: 3rem;
+  padding: 2px $spacing-xs;
+  background-color: $bg-primary;
+  border: 1px solid $border-color-sub;
+  border-radius: $border-radius;
+  color: $text-primary;
+  font-size: $font-size-sm;
+  text-align: center;
+  appearance: textfield;
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    appearance: none;
+    margin: 0;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $accent;
+  }
+}
+
+// ─── Responsive ──────────────────────────────────────────────────────────────
+
+@media (max-width: 900px) {
+  .tank-table__controls {
+    padding: $spacing-md;
+    gap: $spacing-md;
+  }
+
+  .tank-table__cell {
+    padding: $spacing-sm;
+  }
+
+  .tank-table__cell--head {
+    padding: $spacing-sm;
+  }
+}
+
+@media (max-width: 600px) {
+  .tank-table__controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .tank-table__filter-group {
+    flex: 1 1 100%;
+  }
+
+  .tank-table__pagination {
+    gap: $spacing-sm;
+    padding: $spacing-sm $spacing-md;
+  }
+
+  .tank-table__pagination-info {
+    min-width: auto;
+    font-size: $font-size-xs;
+  }
+
+  // On narrow screens hide secondary columns so Name is never squeezed.
+  .tank-table__table {
+    th:nth-child(3),
+    th:nth-child(4),
+    th:nth-child(5),
+    td:nth-child(3),
+    td:nth-child(4),
+    td:nth-child(5) {
+      display: none;
+    }
+  }
+}
+
+// ─── Keyframes ───────────────────────────────────────────────────────────────
+
+@keyframes tank-table-spinner {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes tank-table-highlight {
+  0%   { background-color: rgba($accent, 0.3); box-shadow: inset 3px 0 0 $accent; }
+  100% { background-color: transparent;        box-shadow: inset 3px 0 0 $accent; }
+}
